@@ -14,9 +14,11 @@ const initialState = {
 //Todo 2.1. create asyncThunk function
 export const signInAsync = createAsyncThunk('signIn', async ({email, password}, store) => {
     try{
+        //get user from the database, and return user object
         const user = await signin(email, password); // we can use axios.post here!
         return user;  // return action object to the extraReducer and this value will be appear in extraReducer
     } catch(err){   
+        
         throw err ;
     }
 } )
@@ -45,6 +47,7 @@ const authSlice = createSlice({
             state.loading = true;
             state.error = '';
         },
+        //if signInAsync is fulfilled , we will get the user object from the action object
         [signInAsync.fulfilled] : (state, action) =>{
             state.user = action.payload;
             state.loading = false;
